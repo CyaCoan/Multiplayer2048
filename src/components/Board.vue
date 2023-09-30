@@ -12,16 +12,20 @@ const flatBoard = computed(() => {
 </script>
 
 <template>
-    <slot></slot>
-    <div class="background">
-        <div v-for="i of 16" :key="i" class="grid-cell"></div>
+    <div class="container">
+        <slot></slot>
+        <div class="background" style="position: absolute;">
+            <div v-for="i of 16" :key="i" class="grid-cell"></div>
+        </div>
+        <div v-auto-animate="{ duration: 100 }">
+            <Tile v-for="(item, index) in flatBoard" :key="item ? item[1] : `null-${index}`"
+            :value="item ? item[0] : 0"
+            :row="(index - index % 4) / 4"
+            :col="index % 4">
+                {{ item ? item[0] : 0 }}
+            </Tile>
+        </div>
     </div>
-    <Tile v-for="(item, index) in flatBoard" :key="item ? item[1] : `null-${index}`"
-    :value="item ? item[0] : 0"
-    :row="(index - index % 4) / 4"
-    :col="index % 4">
-        {{ item ? item[0] : 0 }}
-    </Tile>
 </template>
 
 <style lang="scss" scoped>
@@ -43,5 +47,12 @@ const flatBoard = computed(() => {
         border-radius: 8px;
         background-color: #ccc0b3;
     }
+}
+
+.container {
+    width: 592px;
+    height: 592px;
+    margin: 16px auto;
+    position: relative;
 }
 </style>

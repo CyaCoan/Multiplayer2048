@@ -35,15 +35,15 @@ const tile_color = computed(() => {
         32: ['#db5a6b', 'white'],
         64: ['#cb3a56', 'white'],
         128: ['#dc3023', 'white'],
-        256: ['#f300a6', 'white'],
-        512: ['#003371', 'white'],
-        1024: ['#065279', 'white'],
-        2048: ['#177cb0', 'white'],
-        4096: ['#44cef6', 'white'],
-        8192: ['#b0a4e5', 'black'],
-        16384: ['#d6ecf0', 'black'],
-        32768: ['#f2ecde', 'black'],
-        65536: ['#fffbf0', 'black'],
+        256: ['#bf0703', 'white'],
+        512: ['#b65f47', 'white'],
+        1024: ['#a24d15', 'white'],
+        2048: ['#8b3400', 'white'],
+        4096: ['#6b1400', 'white'],
+        8192: ['#677e44', 'white'],
+        16384: ['#575e33', 'white'],
+        32768: ['#473e22', 'white'],
+        65536: ['#371e11', 'white'],
     }
 
     if (props.value in tile_colors) {
@@ -87,24 +87,3 @@ const tile_color = computed(() => {
     }
 }
 </style>
-
-<!-- 
-    const tile_colors = {
-    2: ['#f16528', 'white'],HTML
-    4: ['#edd51e', 'black'],js
-    8: ['#3592cb', 'white'],css
-    16: ['#f23901', 'white'],Svelte
-    32: ['#61dafb', '#13252a'],React
-    64: ['#4f82bf', 'white'],Solid
-    128: ['#ff4556', 'white'],Angular
-    256: ['#0963a3', 'white'],jQuery
-    512: ['rgb(255 208 40)', '#261f08'],Vite
-    1024: ['rgb(99 108 255)', '#fff'],Vite
-    2048: ['#40b883', '#34495e'],Vue
-    4096: ['#cb3837', 'white'],NPM
-    8192: ['#509640', 'white'],Node,
-    16384: ['#2f71ba', 'white'],Typescript
-    32768: ['white', 'black'],
-    65536: ['black', 'white'],
-}
- -->
