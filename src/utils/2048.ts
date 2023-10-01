@@ -1,9 +1,11 @@
 import { createEventHook } from '@vueuse/core';
 import { ref, watch, computed } from 'vue';
+import { isArrayEqual, deepClone, rotateMatrix } from './array';
 
 let id = 0
 const createId = () => id += 1
 const WINNING_TILE_NUMBER = 2048
+const TILE_NUMBER_LIMIT = 65536
 
 export type Tile = [number, number] | null
 export type Board = Tile[][]
@@ -27,11 +29,13 @@ export function use2048() {
     const onDidWinHook = createEventHook<void>()
 
     const score = ref(0)
+    const highScore = ref(0)
     const rows = ref(4)
     const cols = ref(4)
     const board = ref<Board>(Array.from({ length: rows.value }).map(() => Array.from({ length: cols.value }).map(() => null)))
     const hasWon = ref(false)
     const isGameOver = ref(false)
+    const reachedLimit = ref(false)
 
     watch(hasWon, () => {
         if (hasWon.value === true) {
@@ -117,8 +121,15 @@ export function use2048() {
                     brd[pos][j] = [new_value, new_id]
                     k++
 
+                    score.value += new_value
+                    highScore.value = score.value > highScore.value ? score.value : highScore.value
+
                     if (new_value === WINNING_TILE_NUMBER && !hasWon.value) {
                         hasWon.value = true
+                    }
+
+                    if (new_value === TILE_NUMBER_LIMIT && !reachedLimit.value) {
+                        reachedLimit.value = true
                     }
                 } else {
                     brd[pos][j] = temp[k]
@@ -172,8 +183,10 @@ export function use2048() {
     return {
         board,
         score,
+        highScore,
         isGameOver,
         hasWon,
+        reachedLimit,
         biggestTileNumber,
         move,
         initialize,
@@ -185,58 +198,4 @@ export function use2048() {
         onWon: onDidWinHook.on,
         onMove: onMoveHook.on,
       }
-}
-
-function isArrayEqual(array1: any[], array2: any[]) {
-    if (!Array.isArray(array1) || !Array.isArray(array2)) {
-        return array1 === array2
-    }
-  
-    if (array1.length !== array2.length) {
-        return false
-    }
-  
-    for (let i = 0, len = array1.length; i < len; i++) {
-        if (!isArrayEqual(array1[i], array2[i])) {
-            return false
-        }
-    }
-  
-    return true
-}
-
-function deepClone(array: any[]) {
-    const len = array.length
-    const new_array = new Array(len)
-
-    for (let i = 0; i < len; i++) {
-        if (Array.isArray(array[i])) {
-            new_array[i] = deepClone(array[i])
-        } else {
-            new_array[i] = array[i]
-        }
-    }
-
-    return new_array
-}
-
-function rotateMatrix(matrix: any[][], times: number) {
-    const rotateOnce = () => {
-        const row_num = matrix.length
-        const col_num = matrix[0].length
-        let new_matrix: any[][] = []
-        for (let i = 0; i < col_num; i++) {
-            new_matrix[i] = []
-            for (let j = 0; j < row_num; j++) {
-                new_matrix[i][j] = matrix[row_num - j - 1][i]
-            }
-        }
-        matrix = new_matrix
-    }
-
-    for (let i = 0; i < times; i++) {
-        rotateOnce()
-    }
-
-    return matrix
 }

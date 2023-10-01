@@ -3,7 +3,8 @@ import { computed } from 'vue';
 import Tile from './Tile.vue';
 
 const props = defineProps<{
-    board: ([number, number] | null)[][]
+    board: ([number, number] | null)[][],
+    score: number,
 }>()
 
 const flatBoard = computed(() => {
@@ -12,16 +13,18 @@ const flatBoard = computed(() => {
 </script>
 
 <template>
-    <div class="container">
-        <slot></slot>
-        <div class="background" style="position: absolute;">
+    <slot></slot>
+    <div class="container1">
+        <div class="background">
             <div v-for="i of 16" :key="i" class="grid-cell"></div>
         </div>
-        <div v-auto-animate="{ duration: 100 }">
+        
+        <div v-auto-animate="{ duration: 100 }" style="position: absolute;">
             <Tile v-for="(item, index) in flatBoard" :key="item ? item[1] : `null-${index}`"
-            :value="item ? item[0] : 0"
-            :row="(index - index % 4) / 4"
-            :col="index % 4">
+                :value="item ? item[0] : 0"
+                :row="(index - index % 4) / 4"
+                :col="index % 4"
+            >
                 {{ item ? item[0] : 0 }}
             </Tile>
         </div>
@@ -40,6 +43,7 @@ const flatBoard = computed(() => {
     grid-column-gap: 16px;
     grid-template-rows: repeat(4, 128px);
     grid-template-columns: repeat(4, 128px);
+    position: absolute;
 
     .grid-cell {
         width: 128px;
@@ -49,10 +53,11 @@ const flatBoard = computed(() => {
     }
 }
 
-.container {
+.container1 {
     width: 592px;
     height: 592px;
     margin: 16px auto;
-    position: relative;
+    position: absolute;
+    top: 100px;
 }
 </style>

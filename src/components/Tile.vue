@@ -35,7 +35,7 @@ const tile_color = computed(() => {
         32: ['#db5a6b', 'white'],
         64: ['#cb3a56', 'white'],
         128: ['#dc3023', 'white'],
-        256: ['#bf0703', 'white'],
+        256: ['#ba0400', 'white'],
         512: ['#b65f47', 'white'],
         1024: ['#a24d15', 'white'],
         2048: ['#8b3400', 'white'],
@@ -62,7 +62,6 @@ const tile_color = computed(() => {
         'top': top,
         'left': left,
         'z-index': z_index,
-        'position': 'absolute',
     }"
     class="tile">
         <p class="tile-number">
@@ -76,6 +75,7 @@ const tile_color = computed(() => {
     width: 128px;
     height: 128px;
     border-radius: 8px;
+    position: absolute;
 
     .tile-number {
         font-family: consolas;

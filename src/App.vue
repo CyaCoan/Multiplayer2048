@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import SingleGame from './components/SingleGame.vue';
+import ClassicGame from './components/ClassicGame.vue';
 </script>
 
 <template>
     <div>
-        <SingleGame></SingleGame>
+        <ClassicGame></ClassicGame>
     </div>
 </template>
 
