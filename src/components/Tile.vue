@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { Status } from '../utils/2048duel';
 
 const props = defineProps<{
     value: number | null,
+    status?: Status,
     row: number,
     col: number,
 }>()
@@ -23,6 +25,10 @@ const z_index = computed(() => {
 })
 
 const tile_color = computed(() => {
+    if (props.status && props.status === 'frozen') {
+        return ['#70f3ff', 'black']
+    }
+
     if (!props.value) {
         return ['transparent', 'transparent']
     }

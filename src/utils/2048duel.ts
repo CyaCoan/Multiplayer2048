@@ -1,42 +1,25 @@
 import { createEventHook } from '@vueuse/core';
 import { ref, watch, computed } from 'vue';
 import { isArrayEqual, deepClone, rotateMatrix } from './array';
+import { Direction, direction2rotation } from './2048';
 
 let id = 0
 const createId = () => id += 1
-const WINNING_TILE_NUMBER = 2048
-const TILE_NUMBER_LIMIT = 65536
 
-type Tile = [number, number] | null
+export type Status = 'normal' | 'frozen' | 'row' | 'col' | 'bomb' | 'heal'
+type Tile = [number, number, Status] | null
 type Board = Tile[][]
-export type Direction = 'up' | 'down' | 'left' | 'right'
 
-export const direction2rotation = (direction: Direction) => {
-    switch (direction) {
-        case "up":
-            return 0
-        case "down":
-            return 2
-        case "left":
-            return 1
-        case "right":
-            return 3
-    }
-}
-
-export function use2048() {
+export function use2048Duel() {
     const onMoveHook = createEventHook<Direction>()
     const onWonHook = createEventHook<void>()
 
     const score = ref(0)
-    const highScore = ref(0)
     const rows = ref(4)
     const cols = ref(4)
     const board = ref<Board>(Array.from({ length: rows.value }).map(() => Array.from({ length: cols.value }).map(() => null)))
     const hasWon = ref(false)
-    const firstWon = ref(true)
     const isGameOver = ref(false)
-    const reachedLimit = ref(false)
 
     watch(hasWon, () => {
         if (hasWon.value === true) {
@@ -44,39 +27,23 @@ export function use2048() {
         }
     })
 
-    const checkIsGameOver = (board: Board) => {
-        const row_num = board.length
-        const col_num = board[0].length
+    const checkIsGameOver = () => {
 
-        for (let i = 0; i < row_num; i++) {
-            for (let j = 0; j < col_num; j++) {
-                if (board[i][j] === null) {
-                    return false
-                }
-                if (i < row_num - 1 && board[i][j] && board[i + 1][j] && board[i][j]![0] === board[i + 1][j]![0]) {
-                    return false
-                }
-                if (j < col_num - 1 && board[i][j] && board[i][j + 1] && board[i][j]![0] === board[i][j + 1]![0]) {
-                    return false
-                }
-            }
-        }
-
-        return true
+        return false
     }
 
-    const setRandomTile = (board: Board) => {
+    const setRandomTile = (board: Board, status: Status) => {
         const value = Math.random() < 0.9 ? 2 : 4
         const i = Math.floor(Math.random() * rows.value)
         const j = Math.floor(Math.random() * cols.value)
 
         if (board[i][j] !== null) {
-            setRandomTile(board)
+            setRandomTile(board, status)
         } else {
-            board[i][j] = [value, createId()]
+            board[i][j] = [value, createId(), status]
         }
 
-        if (checkIsGameOver(board)) {
+        if (checkIsGameOver()) {
             isGameOver.value = true
         }
 
@@ -87,11 +54,10 @@ export function use2048() {
         score.value = 0
         isGameOver.value = false
         hasWon.value = false
-        firstWon.value = true
 
         let brd: Board = Array.from({ length: rows.value }).map(() => Array.from({ length: cols.value }).map(() => null))
-        brd = setRandomTile(brd)
-        brd = setRandomTile(brd)
+        brd = setRandomTile(brd, 'normal')
+        brd = setRandomTile(brd, 'normal')
 
         board.value = brd
     }
@@ -124,15 +90,6 @@ export function use2048() {
                     k++
 
                     score.value += new_value
-                    highScore.value = score.value > highScore.value ? score.value : highScore.value
-
-                    if (new_value === WINNING_TILE_NUMBER && !hasWon.value) {
-                        hasWon.value = true
-                    }
-
-                    if (new_value === TILE_NUMBER_LIMIT && !reachedLimit.value) {
-                        reachedLimit.value = true
-                    }
                 } else {
                     brd[pos][j] = temp[k]
                 }
@@ -143,7 +100,7 @@ export function use2048() {
         brd = rotateMatrix(brd, 4 - rotation_times)
 
         if (!isArrayEqual(brd, board.value)) {
-            brd = setRandomTile(brd)
+            brd = setRandomTile(brd, 'normal')
         }
 
         board.value = brd
@@ -156,43 +113,36 @@ export function use2048() {
     const left = () => move('left')
     const right = () => move('right')
 
-    const biggestTileNumber = computed(() => {
+    const biggestTile = computed(() => {
         let max_num = 0
+        let tile_i = 0
+        let tile_j = 0
         const row_num = board.value.length
         const col_num = board.value[0].length
 
         for (let i = 0; i < row_num; i++) {
             for (let j = 0; j < col_num; j++) {
                 if (board.value[i][j] !== null) {
-                    max_num = board.value[i][j]![0] > max_num ? board.value[i][j]![0] : max_num
+                    if (board.value[i][j]![0] > max_num) {
+                        max_num = board.value[i][j]![0]
+                        tile_i = i
+                        tile_j = j
+                    }
                 }
             }
         }
 
-        return max_num
+        return [max_num, tile_i, tile_j]
     })
-
-    const test = () => {
-        board.value = [
-            [[2, 1], [4, 2], [8, 3], [16, 4]],
-            [[32, 5], [64, 6], [128, 7], [256, 8]],
-            [[512, 9], [1024, 10], [2048, 11], [4096, 12]],
-            [[8192, 13], [16384, 14], [32768, 15], [65536, 16]]
-        ]
-    }
 
     return {
         board,
         score,
-        highScore,
         isGameOver,
         hasWon,
-        firstWon,
-        reachedLimit,
-        biggestTileNumber,
-        move,
+        biggestTile,
         initialize,
-        test,
+        move,
         up,
         down,
         left,

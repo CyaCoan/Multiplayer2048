@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import Tile from './Tile.vue';
+import { Status } from '../utils/2048duel';
 
 const props = defineProps<{
-    board: ([number, number] | null)[][],
+    board: ([number, number] | [number, number, Status] | null)[][],
     score: number,
 }>()
 
