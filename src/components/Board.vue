@@ -23,6 +23,7 @@ const flatBoard = computed(() => {
         <div v-auto-animate="{ duration: 100 }" style="position: absolute;">
             <Tile v-for="(item, index) in flatBoard" :key="item ? item[1] : `null-${index}`"
                 :value="item ? item[0] : 0"
+                :status="item && item.length === 3 ? item[2] : 'normal'"
                 :row="(index - index % 4) / 4"
                 :col="index % 4"
             >
