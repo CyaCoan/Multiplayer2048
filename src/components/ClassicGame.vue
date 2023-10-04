@@ -88,21 +88,21 @@ onKeyStroke(['ArrowRight', 'd'], () => {
 <template>
     <div class="container2">
         <transition>
-            <Mask v-if="game.isGameOver.value">
+            <Mask v-if="game.isGameOver.value" :color="'white'">
                 <p v-if="game.firstWon.value" class="mask-text" style="position: relative; top: 180px;">你输了</p>
                 <p v-else class="mask-text" style="position: relative; top: 180px;">你输了，但你曾经赢过</p>
             </Mask>
         </transition>
 
         <transition>
-            <Mask v-if="game.hasWon.value && game.firstWon.value">
+            <Mask v-if="game.hasWon.value && game.firstWon.value" :color="'gold'">
                 <p class="mask-text" style="position: relative; top: 140px;">你赢了</p>
                 <button primary @click="game.hasWon.value=false; game.firstWon.value=false" class="continue">继续</button>
             </Mask>
         </transition>
 
         <transition>
-            <Mask v-if="game.reachedLimit.value">
+            <Mask v-if="game.reachedLimit.value" :color="'white'">
                 <p class="mask-text" style="position: relative; top: 180px;">你来到了游戏的尽头</p>
             </Mask>
         </transition>

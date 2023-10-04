@@ -1,10 +1,14 @@
 <script setup lang="ts">
-
+const props = defineProps<{
+    color: string | null
+}>()
 </script>
 
 <template>
     <div class="container3">
-        <div class="mask"></div>
+        <div class="mask" :style="{
+            'background-color': props.color ? props.color : 'white'
+        }"></div>
         <slot></slot>
     </div>
 </template>
@@ -15,7 +19,6 @@
     height: 592px;
     border-radius: 8px;
     position: absolute;
-    background-color: white;
     opacity: 0.5;
 }
 
