@@ -2,7 +2,7 @@
 import Board from './Board.vue';
 import Mask from './Mask.vue';
 import { use2048 } from '../utils/2048.ts';
-import { ref, watch, computed } from 'vue';
+import { computed } from 'vue';
 import { onKeyStroke } from '@vueuse/core';
 import { useTransition } from '@vueuse/core';
 
@@ -15,25 +15,14 @@ const emit = defineEmits<{
 }>()
 
 const game = use2048()
-const showWonState = ref(false)
 game.initialize()
 // game.test()
-
-game.onWon(() => {
-    showWonState.value = true
-})
-
-watch(() => game.hasWon.value, () => {
-    if (!game.hasWon.value) {
-        showWonState.value = false
-    }
-})
 
 const score = useTransition(computed(() => game.score.value), { duration: 100 })
 const highScore = useTransition(computed(() => game.highScore.value), { duration: 100 })
 
 const canMove = computed(() => {
-    if (showWonState.value && game.firstWon.value) {
+    if (game.hasWon.value && game.firstWon.value) {
         return false
     }
 
