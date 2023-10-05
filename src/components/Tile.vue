@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Arrow from './Arrow.vue';
+import Bomb from './Bomb.vue';
 import { computed } from 'vue';
 import { Status } from '../utils/2048duel';
 
@@ -26,52 +27,63 @@ const z_index = computed(() => {
 })
 
 const tile_color = computed(() => {
-    if (props.status && props.status === 'frozen') {
-        return ['#70f3ff', 'black']
+    if (props.status === 'frozen') {
+        return '#70f3ff'
     }
 
     if (!props.value) {
-        return ['transparent', 'transparent']
+        return 'transparent'
     }
 
     const tile_colors = {
-        2: ['#ffb035', 'white'],
-        4: ['#ff8936', 'white'],
-        8: ['#ff7000', 'white'],
-        16: ['#ff4e20', 'white'],
-        32: ['#db5a6b', 'white'],
-        64: ['#cb3a56', 'white'],
-        128: ['#dc3023', 'white'],
-        256: ['#ba0400', 'white'],
-        512: ['#b65f47', 'white'],
-        1024: ['#a24d15', 'white'],
-        2048: ['#8b3400', 'white'],
-        4096: ['#6b1400', 'white'],
-        8192: ['#677e44', 'white'],
-        16384: ['#575e33', 'white'],
-        32768: ['#473e22', 'white'],
-        65536: ['#371e11', 'white'],
+        2: '#ffb035',
+        4: '#ff8936',
+        8: '#ff7000',
+        16: '#ff4e20',
+        32: '#db5a6b',
+        64: '#cb3a56',
+        128: '#dc3023',
+        256: '#ba0400',
+        512: '#b65f47',
+        1024: '#a24d15',
+        2048: '#8b3400',
+        4096: '#6b1400',
+        8192: '#677e44',
+        16384: '#575e33',
+        32768: '#473e22',
+        65536: '#371e11',
     }
 
     if (props.value in tile_colors) {
         return (tile_colors as any)[props.value]
     }
 
-    return ['transparent', 'transparent']
+    return 'transparent'
+})
+
+const tile_number_color = computed(() => {
+    if (props.status == 'frozen') {
+        return 'black'
+    }
+
+    return 'white'
 })
 </script>
 
 <template>
-    <div :style="{
-        'background-color': tile_color[0],
-        'color': tile_color[1],
-        'box-shadow': `0 0 10px 0px ${tile_color[0]}`,
-        'top': top,
-        'left': left,
-        'z-index': z_index,
-    }"
-    class="tile">
+    <div v-if="props.value"
+        :style="{
+            'background-color': tile_color,
+            'color': tile_number_color,
+            'box-shadow': `0 0 10px 0px ${tile_color}`,
+            'top': top,
+            'left': left,
+            'z-index': z_index,
+        }"
+        class="tile"
+    >
         <Arrow :status="props.status"></Arrow>
+        <Bomb :value="props.value" :status="props.status"></Bomb>
         <p class="tile-number">
             <slot></slot>
         </p>
@@ -93,6 +105,7 @@ const tile_color = computed(() => {
         font-size: 40px;
         font-weight: bold;
         text-align: center;
+        z-index: 100;
         user-select: none;
     }
 }
