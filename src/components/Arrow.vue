@@ -9,8 +9,8 @@ const props = defineProps<{
 <template>
     <div v-if="props.status === 'row'" class="arrow-left" style="top: 54px; left: 8px;"></div>
     <div v-if="props.status === 'row'" class="arrow-right" style="top: 54px; right: 8px;"></div>
-    <div v-if="props.status === 'col'" class="arrow-up" style="top: 8px; left: 54px;"></div>
-    <div v-if="props.status === 'col'" class="arrow-down" style="bottom: 8px; left: 54px;"></div>
+    <div v-if="props.status === 'column'" class="arrow-up" style="top: 8px; left: 54px;"></div>
+    <div v-if="props.status === 'column'" class="arrow-down" style="bottom: 8px; left: 54px;"></div>
 </template>
 
 <style lang="scss" scoped>

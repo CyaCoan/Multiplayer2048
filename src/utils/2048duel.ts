@@ -6,7 +6,7 @@ import { Direction, direction2rotation } from './2048';
 let id = 0
 const createId = () => id += 1
 
-export type Status = 'normal' | 'frozen' | 'row' | 'col' | 'bomb' | 'heal'
+export type Status = 'normal' | 'frozen' | 'row' | 'column' | 'bomb' | 'heal'
 type Tile = [number, number, Status] | null
 type Board = Tile[][]
 
