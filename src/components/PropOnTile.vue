@@ -9,8 +9,21 @@ const props = defineProps<{
 <template>
     <div v-if="props.status === 'row'" class="arrow-left" style="top: 54px; left: 8px;"></div>
     <div v-if="props.status === 'row'" class="arrow-right" style="top: 54px; right: 8px;"></div>
+
     <div v-if="props.status === 'column'" class="arrow-up" style="top: 8px; left: 54px;"></div>
     <div v-if="props.status === 'column'" class="arrow-down" style="bottom: 8px; left: 54px;"></div>
+
+    <div v-if="props.status === 'bomb'" class="container4">
+        <img src="../assets/bomb-white.svg" class="bomb" style="top: 0px; left: 16px;"/>
+    </div>
+
+    <div v-if="props.status === 'frozen'" class="container4">
+        <img src="../assets/ice-cube-white.svg" class="ice-cube" style="top: 8px; left: 8px; transform: rotate(-2deg);"/>
+    </div>
+
+    <div v-if="props.status === 'heal'" class="container4">
+        <img src="../assets/health-white.svg" class="health" style="top: 2px; left: -1px;"/>
+    </div>
 </template>
 
 <style lang="scss" scoped>
@@ -107,6 +120,44 @@ const props = defineProps<{
     100% {
         opacity: 0;
         transform: rotate(-135deg) translate(-8px, -8px);
+    }
+}
+
+.container4 {
+    width: 128px;
+    height: 128px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bomb {
+    position: absolute;
+    height: 112px;
+    animation: flicker 1.5s infinite;
+}
+
+.ice-cube {
+    position: absolute;
+    height: 112px;
+}
+
+.health {
+    position: absolute;
+    height: 130px;
+    animation: flicker 1.5s infinite;
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
     }
 }
 </style>

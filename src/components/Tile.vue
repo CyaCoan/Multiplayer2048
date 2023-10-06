@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import Arrow from './Arrow.vue';
-import Bomb from './Bomb.vue';
+import PropOnTile from './PropOnTile.vue';
 import { computed } from 'vue';
 import { Status } from '../utils/2048duel';
 
@@ -29,6 +28,10 @@ const z_index = computed(() => {
 const tile_color = computed(() => {
     if (props.status === 'frozen') {
         return '#70f3ff'
+    }
+
+    if (props.status === 'heal') {
+        return '#2add9c'
     }
 
     if (!props.value) {
@@ -62,11 +65,19 @@ const tile_color = computed(() => {
 })
 
 const tile_number_color = computed(() => {
-    if (props.status == 'frozen') {
+    if (props.status === 'frozen' || props.status === 'bomb' || props.status === 'heal') {
         return 'black'
     }
 
     return 'white'
+})
+
+const tile_number_shadow_color = computed(() => {
+    if (props.status === 'bomb' || props.status === 'heal') {
+        return 'white'
+    }
+
+    return 'transparent'
 })
 </script>
 
@@ -82,9 +93,16 @@ const tile_number_color = computed(() => {
         }"
         class="tile"
     >
-        <Arrow :status="props.status"></Arrow>
-        <Bomb :value="props.value" :status="props.status"></Bomb>
-        <p class="tile-number">
+        <PropOnTile :status="props.status"></PropOnTile>
+        <p class="tile-number"
+            :style="{
+                'text-shadow': `
+                    1px 1px 4px ${tile_number_shadow_color},
+                    -1px 1px 4px ${tile_number_shadow_color},
+                    -1px -1px 4px ${tile_number_shadow_color},
+                    1px -1px 4px ${tile_number_shadow_color}
+                `
+            }">
             <slot></slot>
         </p>
     </div>
