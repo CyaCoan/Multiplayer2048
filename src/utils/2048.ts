@@ -1,6 +1,6 @@
 import { createEventHook } from '@vueuse/core';
 import { ref, watch, computed } from 'vue';
-import { isArrayEqual, deepClone, rotateMatrix } from './array.ts';
+import { isArrayEqual, deepClone, rotateMatrix } from './array';
 
 let id = 0
 const createId = () => id += 1

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Board from './Board.vue';
 import Mask from './Mask.vue';
-import { use2048 } from '../utils/2048.ts';
+import { use2048 } from '../utils/2048';
 import { computed } from 'vue';
 import { onKeyStroke } from '@vueuse/core';
 import { useTransition } from '@vueuse/core';
