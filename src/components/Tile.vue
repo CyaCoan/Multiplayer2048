@@ -30,10 +30,6 @@ const tile_color = computed(() => {
         return '#70f3ff'
     }
 
-    if (props.status === 'heal') {
-        return '#2add9c'
-    }
-
     if (!props.value) {
         return 'transparent'
     }
