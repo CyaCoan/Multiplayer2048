@@ -8,7 +8,7 @@
 
 ### 立项过程
 mindmap图
-![图片](public/mindmap.jpg)
+![图片](mindmap.jpg)
 
 ## NABCD模型
 N（Need 需求）：玩家用户在进行2048游戏过程中，由于2048本身游戏的休闲性，常常遇到游玩过于随意，无法提高自身技术的情况，同时希望能够加入对手提升游戏的竞争与对抗，因此他们迫切希望可以通过一个方便可靠的网络平台实现网络对战功能；
@@ -22,12 +22,12 @@ C(Competitors 竞争)：目前存在许多2048游戏，除了最原始的版本�
 D(Delivery 推广)：用户邀请推荐我们的平台，同时我们也可以在相应的游戏网站进行广告宣传。
 
 ## 原型设计
-首页![图片](vue-2048-main\public\首页.png)
-成就![图片](vue-2048-main\public\成就.png)
-用户登录![图片](vue-2048-main\public\玩家.png)
-游戏界面![图片](vue-2048-main\public\游戏界面.png)
+首页![图片](首页.png)
+成就![图片](成就.png)
+用户登录![图片](玩家.png)
+游戏界面![图片](游戏界面.png)
 这是我们组在墨刀上实现的原型网站网址：[https://modao.cc/proto/design/pb2lnbl0lizfn8qrl](https://modao.cc/proto/design/pb2lnbl0lizfn8qrl)
 
 ## 进度计划
 我们根据软件多方面的功能，对项目进行功能分解，按照要求实现了对组成员任务合理的分配，具体分配情况见下图
-![图片](vue-2048-main\public\新甘特图.png)
+![图片](新甘特图.png)
