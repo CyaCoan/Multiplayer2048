@@ -58,8 +58,7 @@ const flatBoard = computed(() => {
 .container1 {
     width: 592px;
     height: 592px;
-    margin: 16px auto;
     position: absolute;
-    top: 100px;
+    bottom: 0px;
 }
 </style>

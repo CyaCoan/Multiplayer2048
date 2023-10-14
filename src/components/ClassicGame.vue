@@ -109,7 +109,8 @@ onKeyStroke(['ArrowRight', 'd'], () => {
 <style lang="scss" scoped>
 .container2 {
     width: 592px;
-    height: 692px;
+    height: 708px;
+    margin: 16px auto;
     position: relative;
 }
 
@@ -119,7 +120,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     font-weight: bold;
     text-align: left;
     position: absolute;
-    top: -70px;
+    top: -64px;
     left: 0px;
     user-select: none;
 }
@@ -130,7 +131,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     font-weight: bold;
     text-align: right;
     position: absolute;
-    top: -12px;
+    top: -6px;
     right: 0px;
     user-select: none;
 }
@@ -141,7 +142,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     font-weight: bold;
     text-align: left;
     position: absolute;
-    top: -48px;
+    top: -42px;
     left: 0px;
     user-select: none;
 }
@@ -152,7 +153,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     font-weight: bold;
     text-align: right;
     position: absolute;
-    top: -24px;
+    top: -18px;
     right: 0px;
     user-select: none;
 }
@@ -169,7 +170,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     color: black;
     border-color: black;
     position: absolute;
-    top: 50px;
+    top: 56px;
     right: 0px;
 }
 
@@ -185,7 +186,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     color: black;
     border-color: black;
     position: relative;
-    top: 100px;
+    top: 106px;
 }
 
 .mask-text {

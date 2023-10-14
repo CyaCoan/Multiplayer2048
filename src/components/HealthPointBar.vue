@@ -10,7 +10,8 @@ const props = defineProps<{
     <div :style="{
         'width': '560px',
         'height': '32px',
-        'position': 'absolute',
+        'position': 'relative',
+        'margin': '16px',
     }">
         <div :style="{
             'background-color': `${(hp / max) > 0.2 ? '#2add9c' : '#dc3023'}`,
