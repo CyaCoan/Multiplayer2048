@@ -3,8 +3,7 @@ import Board from './Board.vue';
 import Mask from './Mask.vue';
 import { use2048 } from '../utils/2048';
 import { computed } from 'vue';
-import { onKeyStroke } from '@vueuse/core';
-import { useTransition } from '@vueuse/core';
+import { onKeyStroke, useTransition } from '@vueuse/core';
 
 const emit = defineEmits<{
     (e: 'up'): void
@@ -71,6 +70,10 @@ onKeyStroke(['ArrowRight', 'd'], () => {
 
     game.right()
     emit('right')
+})
+
+document.addEventListener('keypress', (e) => {
+    e.preventDefault()
 })
 </script>
 
