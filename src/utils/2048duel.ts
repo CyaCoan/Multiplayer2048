@@ -1,25 +1,30 @@
-import { createEventHook } from '@vueuse/core';
+import { assert, createEventHook } from '@vueuse/core';
 import { ref, watch, computed } from 'vue';
-import { isArrayEqual, deepClone, rotateMatrix } from './array';
+import { isArrayEqual, deepClone, rotateMatrix, rotateCoordinate } from './array';
 import { Direction, direction2rotation } from './2048';
+import { triggerRow, triggerColumn, triggerBomb, triggerHeal } from './prop';
 
 let id = 0
 const createId = () => id += 1
 
+const MAX_HP = 4096
+
 export type Status = 'normal' | 'frozen' | 'row' | 'column' | 'bomb' | 'heal'
 type Tile = [number, number, Status] | null
-type Board = Tile[][]
+export type Board = Tile[][]
 
 export function use2048Duel() {
     const onMoveHook = createEventHook<Direction>()
     const onWonHook = createEventHook<void>()
 
     const score = ref(0)
+    const hp = ref(MAX_HP)
+    const trigger_pos = ref([-1, -1])
     const rows = ref(4)
     const cols = ref(4)
     const board = ref<Board>(Array.from({ length: rows.value }).map(() => Array.from({ length: cols.value }).map(() => null)))
     const hasWon = ref(false)
-    const isGameOver = ref(false)
+    const isStuck = ref(false)
 
     watch(hasWon, () => {
         if (hasWon.value === true) {
@@ -27,9 +32,25 @@ export function use2048Duel() {
         }
     })
 
-    const checkIsGameOver = () => {
+    const checkIsStuck = (board: Board) => {
+        const row_num = board.length
+        const col_num = board[0].length
 
-        return false
+        for (let i = 0; i < row_num; i++) {
+            for (let j = 0; j < col_num; j++) {
+                if (board[i][j] === null) {
+                    return false
+                }
+                if (i < row_num - 1 && board[i][j] && board[i + 1][j] && board[i][j]![0] === board[i + 1][j]![0]) {
+                    return false
+                }
+                if (j < col_num - 1 && board[i][j] && board[i][j + 1] && board[i][j]![0] === board[i][j + 1]![0]) {
+                    return false
+                }
+            }
+        }
+
+        return true
     }
 
     const setRandomTile = (board: Board, status: Status) => {
@@ -43,8 +64,8 @@ export function use2048Duel() {
             board[i][j] = [value, createId(), status]
         }
 
-        if (checkIsGameOver()) {
-            isGameOver.value = true
+        if (checkIsStuck(board)) {
+            isStuck.value = true
         }
 
         return board
@@ -52,7 +73,7 @@ export function use2048Duel() {
 
     const initialize = () => {
         score.value = 0
-        isGameOver.value = false
+        isStuck.value = false
         hasWon.value = false
 
         let brd: Board = Array.from({ length: rows.value }).map(() => Array.from({ length: cols.value }).map(() => null))
@@ -83,10 +104,25 @@ export function use2048Duel() {
             let pos = 0
             const n = temp.length
             for (let k = 0; k < n; k++) {
-                if (k < n - 1 && temp[k]![0] === temp[k + 1]![0]) {
+                if (k < n - 1 && temp[k]![0] === temp[k + 1]![0] 
+                    && temp[k]![2] !== 'frozen' && temp[k + 1]![2] !== 'frozen') {
                     const new_value = temp[k]![0] * 2
                     const new_id = temp[k + 1]![1]
-                    brd[pos][j] = [new_value, new_id]
+
+                    let new_status = 'normal'
+                    if (temp[k]![2] !== 'normal' && temp[k + 1]![2] === 'normal') {
+                        new_status = temp[k]![2]
+                    }
+                    if (temp[k]![2] === 'normal' && temp[k + 1]![2] !== 'normal') {
+                        new_status = temp[k + 1]![2]
+                    }
+
+                    if (new_status !== 'normal') {
+                        trigger_pos.value = [pos, j]
+                        trigger_pos.value = rotateCoordinate(trigger_pos.value, 4, 4 - rotation_times)
+                    }
+
+                    brd[pos][j] = [new_value, new_id, new_status]
                     k++
 
                     score.value += new_value
@@ -135,13 +171,61 @@ export function use2048Duel() {
         return [max_num, tile_i, tile_j]
     })
 
+    const deleteTile = (i: number, j: number) => {
+        board.value[i][j] = null
+    }
+
+    const setTileProp = (i: number, j: number, status: Status) => {
+        if (board.value[i][j] === null) {
+            return
+        }
+        board.value[i][j]![2] = status
+    }
+
+    const triggerTileProp = (pos: number[]) => {
+        assert(pos.length === 2)
+
+        const i = pos[0]
+        const j = pos[1]
+
+        if (board.value[i][j] === null) {
+            return
+        }
+        const status = board.value[i][j]![2]
+        
+        switch (status) {
+            case 'row':
+                board.value = triggerRow(i, j, board.value)
+                break
+            case 'column':
+                board.value = triggerColumn(i, j, board.value)
+                break
+            case 'bomb':
+                board.value = triggerBomb(i, j, board.value)
+                break
+            case 'heal':
+                hp.value = triggerHeal(i, j, board.value, hp.value)
+                break
+            default:
+                return
+        }
+
+        board.value[i][j]![2] = 'normal'
+    }
+
     return {
         board,
         score,
-        isGameOver,
+        hp,
+        trigger_pos,
+        isStuck,
         hasWon,
         biggestTile,
         initialize,
+        setRandomTile,
+        deleteTile,
+        setTileProp,
+        triggerTileProp,
         move,
         up,
         down,
@@ -151,3 +235,4 @@ export function use2048Duel() {
         onMove: onMoveHook.on,
     }
 }
+

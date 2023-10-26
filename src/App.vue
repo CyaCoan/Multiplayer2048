@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import ClassicGame from './components/ClassicGame.vue';
+import DuelGame from './components/DuelGame.vue';
+
+// import ClassicGame from './components/ClassicGame.vue';
 // import HealthPointBar from './components/HealthPointBar.vue';
 // import Tile from './components/Tile.vue';
 // import { ref, computed } from 'vue';
@@ -12,7 +14,9 @@ import ClassicGame from './components/ClassicGame.vue';
 
 <template>
     <div>
-        <ClassicGame></ClassicGame>
+        <DuelGame></DuelGame>
+
+        <!-- <ClassicGame></ClassicGame> -->
 
         <!-- test HP bar -->
         <!-- <HealthPointBar :hp="cur_hp" :max="max" :side="'left'" style="position: relative;"></HealthPointBar>

@@ -1,3 +1,5 @@
+import { assert } from "@vueuse/core"
+
 export function isArrayEqual(array1: any[], array2: any[]) {
     if (!Array.isArray(array1) || !Array.isArray(array2)) {
         return array1 === array2
@@ -50,4 +52,20 @@ export function rotateMatrix(matrix: any[][], times: number) {
     }
 
     return matrix
+}
+
+export function rotateCoordinate(pos: number[], size: number, times: number) {
+    assert(pos.length === 2)
+
+    const rotateOnce = () => {
+        let x = pos[1]
+        let y = size - pos[0] - 1
+        pos = [x, y]
+    }
+
+    for (let i = 0; i < times; i++) {
+        rotateOnce()
+    }
+
+    return pos
 }
