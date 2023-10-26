@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Board from './Board.vue';
 import Mask from './Mask.vue';
+import { blur } from '../utils/button';
 import { use2048 } from '../utils/2048';
 import { computed } from 'vue';
 import { onKeyStroke, useTransition } from '@vueuse/core';
@@ -71,10 +72,6 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     game.right()
     emit('right')
 })
-
-document.addEventListener('keypress', (e) => {
-    e.preventDefault()
-})
 </script>
 
 <template>
@@ -104,7 +101,7 @@ document.addEventListener('keypress', (e) => {
             <p class="text2">最高成绩</p>
             <p class="score1">{{ score.toFixed(0) }}</p>
             <p class="score2">{{ highScore.toFixed(0) }}</p>
-            <button primary @click="game.initialize()" class="new-game">重玩一局</button>
+            <button primary @click="game.initialize(); blur(`new_game`);" class="new-game" id="new_game">重玩一局</button>
         </Board>
     </div>
 </template>
