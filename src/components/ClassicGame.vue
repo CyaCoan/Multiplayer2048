@@ -75,7 +75,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
 </script>
 
 <template>
-    <div class="container2">
+    <div class="container-game">
         <transition>
             <Mask v-if="game.isGameOver.value" :color="'white'">
                 <p v-if="game.firstWon.value" class="mask-text" style="position: relative; top: 180px;">你输了</p>
@@ -96,21 +96,30 @@ onKeyStroke(['ArrowRight', 'd'], () => {
             </Mask>
         </transition>
         
-        <Board :board="game.board.value" :score="game.score.value">
-            <p class="text1">成绩</p>
-            <p class="text2">最高成绩</p>
-            <p class="score1">{{ score.toFixed(0) }}</p>
-            <p class="score2">{{ highScore.toFixed(0) }}</p>
+        <div class="container-header">
+            <div class="text1">成绩</div>
+            <div class="text2">最高成绩</div>
+            <div class="score1">{{ score.toFixed(0) }}</div>
+            <div class="score2">{{ highScore.toFixed(0) }}</div>
             <button primary @click="game.initialize(); blur(`new_game`);" class="new-game" id="new_game">重玩一局</button>
-        </Board>
+        </div>
+
+        <Board :board="game.board.value" :score="game.score.value" style="bottom: 0px;"></Board>
     </div>
 </template>
 
 <style lang="scss" scoped>
-.container2 {
+.container-game {
     width: 592px;
     height: 708px;
     margin: 16px auto;
+    position: relative;
+}
+
+.container-header {
+    width: 592px;
+    height: 108px;
+    margin-bottom: 8px;
     position: relative;
 }
 
@@ -120,7 +129,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     font-weight: bold;
     text-align: left;
     position: absolute;
-    top: -64px;
+    bottom: -32px;
     left: 0px;
     user-select: none;
 }
@@ -131,7 +140,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     font-weight: bold;
     text-align: right;
     position: absolute;
-    top: -6px;
+    bottom: 50px;
     right: 0px;
     user-select: none;
 }
@@ -142,7 +151,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     font-weight: bold;
     text-align: left;
     position: absolute;
-    top: -42px;
+    top: 0px;
     left: 0px;
     user-select: none;
 }
@@ -153,7 +162,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     font-weight: bold;
     text-align: right;
     position: absolute;
-    top: -18px;
+    top: 6px;
     right: 0px;
     user-select: none;
 }
@@ -170,7 +179,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     color: black;
     border-color: black;
     position: absolute;
-    top: 56px;
+    bottom: 0px;
     right: 0px;
 }
 

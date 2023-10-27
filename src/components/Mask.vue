@@ -5,7 +5,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="container3">
+    <div class="container-mask">
         <div class="mask" :style="{
             'background-color': props.color ? props.color : 'white'
         }"></div>
@@ -22,7 +22,7 @@ const props = defineProps<{
     opacity: 0.5;
 }
 
-.container3 {
+.container-mask {
     width: 592px;
     height: 592px;
     margin: 16px auto;

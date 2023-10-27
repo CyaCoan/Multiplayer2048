@@ -14,8 +14,7 @@ const flatBoard = computed(() => {
 </script>
 
 <template>
-    <slot></slot>
-    <div class="container1">
+    <div class="container-board">
         <div class="background">
             <div v-for="i of 16" :key="i" class="grid-cell"></div>
         </div>
@@ -55,10 +54,9 @@ const flatBoard = computed(() => {
     }
 }
 
-.container1 {
+.container-board {
     width: 592px;
     height: 592px;
     position: absolute;
-    bottom: 0px;
 }
 </style>

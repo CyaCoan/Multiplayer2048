@@ -13,15 +13,15 @@ const props = defineProps<{
     <div v-if="props.status === 'column'" class="arrow-up" style="top: 8px; left: 54px;"></div>
     <div v-if="props.status === 'column'" class="arrow-down" style="bottom: 8px; left: 54px;"></div>
 
-    <div v-if="props.status === 'bomb'" class="container4">
+    <div v-if="props.status === 'bomb'" class="container-prop">
         <img src="../assets/bomb-white.svg" class="bomb" style="top: 0px; left: 16px;"/>
     </div>
 
-    <div v-if="props.status === 'frozen'" class="container4">
+    <div v-if="props.status === 'frozen'" class="container-prop">
         <img src="../assets/ice-cube-white.svg" class="ice-cube" style="top: 8px; left: 8px; transform: rotate(-2deg);"/>
     </div>
 
-    <div v-if="props.status === 'heal'" class="container4">
+    <div v-if="props.status === 'heal'" class="container-prop">
         <img src="../assets/health-white.svg" class="health" style="top: 2px; left: -1px;"/>
     </div>
 </template>
@@ -123,7 +123,7 @@ const props = defineProps<{
     }
 }
 
-.container4 {
+.container-prop {
     width: 128px;
     height: 128px;
     position: absolute;
