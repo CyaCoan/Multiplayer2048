@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DuelGame from './components/DuelGame.vue';
+// import DuelGame from './components/DuelGame.vue';
 
 // import ClassicGame from './components/ClassicGame.vue';
 // import HealthPointBar from './components/HealthPointBar.vue';
@@ -14,7 +14,9 @@ import DuelGame from './components/DuelGame.vue';
 
 <template>
     <div>
-        <DuelGame></DuelGame>
+        <RouterView></RouterView>
+
+        <!-- <DuelGame></DuelGame> -->
 
         <!-- <ClassicGame></ClassicGame> -->
 

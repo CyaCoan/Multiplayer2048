@@ -11,7 +11,8 @@
   "dependencies": {
     "@formkit/auto-animate": "^0.8.0",
     "@vueuse/core": "^10.4.1",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
