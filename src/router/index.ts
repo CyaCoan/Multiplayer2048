@@ -6,6 +6,9 @@ const routes: Array<RouteRecordRaw> = [{
 }, {
     path: '/duel',
     component: () => import('../components/DuelGame.vue')
+}, {
+    path: '/',
+    component: () => import('../App.vue')
 }]
 
 const router = createRouter({
