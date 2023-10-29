@@ -76,26 +76,6 @@ onKeyStroke(['ArrowRight', 'd'], () => {
 
 <template>
     <div class="container-game">
-        <transition>
-            <Mask v-if="game.isGameOver.value" :color="'white'">
-                <p v-if="game.firstWon.value" class="mask-text" style="position: relative; top: 180px;">你输了</p>
-                <p v-else class="mask-text" style="position: relative; top: 180px;">你输了，但你曾经赢过</p>
-            </Mask>
-        </transition>
-
-        <transition>
-            <Mask v-if="game.hasWon.value && game.firstWon.value" :color="'gold'">
-                <p class="mask-text" style="position: relative; top: 140px;">你赢了</p>
-                <button primary @click="game.hasWon.value=false; game.firstWon.value=false" class="continue">继续</button>
-            </Mask>
-        </transition>
-
-        <transition>
-            <Mask v-if="game.reachedLimit.value" :color="'white'">
-                <p class="mask-text" style="position: relative; top: 180px;">你来到了游戏的尽头</p>
-            </Mask>
-        </transition>
-        
         <div class="container-header">
             <div class="text1">成绩</div>
             <div class="text2">最高成绩</div>
@@ -103,6 +83,26 @@ onKeyStroke(['ArrowRight', 'd'], () => {
             <div class="score2">{{ highScore.toFixed(0) }}</div>
             <button primary @click="game.initialize(); blur(`new_game`);" class="new-game" id="new_game">重玩一局</button>
         </div>
+
+        <transition>
+            <Mask v-if="game.isGameOver.value" :color="'white'" style="position: absolute; bottom: 0px;">
+                <p v-if="game.firstWon.value" class="mask-text" style="position: relative; top: 180px;">你输了</p>
+                <p v-else class="mask-text" style="position: relative; top: 180px;">你输了，但你曾经赢过</p>
+            </Mask>
+        </transition>
+
+        <transition>
+            <Mask v-if="game.hasWon.value && game.firstWon.value" :color="'gold'" style="position: absolute; bottom: 0px;">
+                <p class="mask-text" style="position: relative; top: 140px;">你赢了</p>
+                <button primary @click="game.hasWon.value=false; game.firstWon.value=false" class="continue">继续</button>
+            </Mask>
+        </transition>
+
+        <transition>
+            <Mask v-if="game.reachedLimit.value" :color="'white'" style="position: absolute; bottom: 0px;">
+                <p class="mask-text" style="position: relative; top: 180px;">你来到了游戏的尽头</p>
+            </Mask>
+        </transition>
 
         <Board :board="game.board.value" :score="game.score.value" style="bottom: 0px;"></Board>
     </div>
@@ -118,8 +118,8 @@ onKeyStroke(['ArrowRight', 'd'], () => {
 
 .container-header {
     width: 592px;
-    height: 108px;
-    margin-bottom: 8px;
+    height: 100px;
+    margin-bottom: 16px;
     position: relative;
 }
 
@@ -151,7 +151,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     font-weight: bold;
     text-align: left;
     position: absolute;
-    top: 0px;
+    top: -8px;
     left: 0px;
     user-select: none;
 }
@@ -162,7 +162,7 @@ onKeyStroke(['ArrowRight', 'd'], () => {
     font-weight: bold;
     text-align: right;
     position: absolute;
-    top: 6px;
+    top: -2px;
     right: 0px;
     user-select: none;
 }

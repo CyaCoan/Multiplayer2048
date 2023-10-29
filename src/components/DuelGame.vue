@@ -137,7 +137,7 @@ onKeyStroke('f', () => {
 </script>
 
 <template>
-    <div class="container5">
+    <div class="container-game">
         <Board :board="game.board.value" :score="game.score.value"></Board>
         <button @click="game.initialize(); hp = 1024; blur(`new_game`)" class="new-game" id="new_game">重玩一局</button>
         <HealthPointBar :hp="cur_hp" :max="max" :side="'left'" style="position: absolute; top: 260px; right: 50px;"></HealthPointBar>
@@ -146,7 +146,7 @@ onKeyStroke('f', () => {
 </template>
 
 <style lang="scss" scoped>
-.container5 {
+.container-game {
     width: 1400px;
     height: 592px;
     position: relative;
