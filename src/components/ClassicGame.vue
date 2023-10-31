@@ -11,7 +11,7 @@ const emit = defineEmits<{
     (e: 'down'): void
     (e: 'left'): void
     (e: 'right'): void
-    (e: 'update:seed'): string
+    // (e: 'update:seed'): string
 }>()
 
 const game = use2048()

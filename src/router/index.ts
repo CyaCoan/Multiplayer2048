@@ -7,8 +7,26 @@ const routes: Array<RouteRecordRaw> = [{
     path: '/duel',
     component: () => import('../components/DuelGame.vue')
 }, {
-    path: '/',
-    component: () => import('../App.vue')
+    path: '/index',
+    component: () => import('../components-view/index.vue')
+}, {
+    path: '/details',
+    component: () => import('../components-view/details.vue')
+}, {
+    path: '/achievement',
+    component: () => import('../components-view/playachievement.vue')
+}, {
+    path: '/offline',
+    component: () => import('../components-view/playLogin.vue')
+}, {
+    path: '/online',
+    component: () => import('../components-view/successLogin.vue')
+}, {
+    path: '/register',
+    component: () => import('../components-view/PlayerRegister.vue')
+}, {
+    path: '/login',
+    component: () => import('../components-view/PlayerLogin.vue')
 }]
 
 const router = createRouter({

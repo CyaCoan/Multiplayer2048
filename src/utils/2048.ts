@@ -1,5 +1,5 @@
-import { createEventHook } from '@vueuse/core';
-import { ref, watch, computed } from 'vue';
+// import { createEventHook } from '@vueuse/core';
+import { ref, computed } from 'vue';
 import { isArrayEqual, deepClone, rotateMatrix } from './array';
 
 let id = 0
@@ -25,8 +25,8 @@ export const direction2rotation = (direction: Direction) => {
 }
 
 export function use2048() {
-    const onMoveHook = createEventHook<Direction>()
-    const onWonHook = createEventHook<void>()
+    // const onMoveHook = createEventHook<Direction>()
+    // const onWonHook = createEventHook<void>()
 
     const score = ref(0)
     const highScore = ref(0)
@@ -38,11 +38,11 @@ export function use2048() {
     const isGameOver = ref(false)
     const reachedLimit = ref(false)
 
-    watch(hasWon, () => {
-        if (hasWon.value === true) {
-            onWonHook.trigger()
-        }
-    })
+    // watch(hasWon, () => {
+    //     if (hasWon.value === true) {
+    //         onWonHook.trigger()
+    //     }
+    // })
 
     const checkIsGameOver = (board: Board) => {
         const row_num = board.length
@@ -148,7 +148,7 @@ export function use2048() {
 
         board.value = brd
 
-        onMoveHook.trigger(direction)
+        // onMoveHook.trigger(direction)
     }
 
     const up = () => move('up')
@@ -197,7 +197,7 @@ export function use2048() {
         down,
         left,
         right,
-        onWon: onWonHook.on,
-        onMove: onMoveHook.on,
+        // onWon: onWonHook.on,
+        // onMove: onMoveHook.on,
     }
 }
